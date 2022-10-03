@@ -66,7 +66,6 @@ def create_author():
     return jsonify({"product": result}), 201
     
 @application.route('/products/<id>', methods = ['GET'])
-
 def get_product_by_id(id):
     get_product = Products.query.get(id)
     if not get_product:
@@ -76,7 +75,6 @@ def get_product_by_id(id):
     return jsonify({"product": get_product})
     
 @application.route('/products/<id>', methods = ['PUT'])
-
 def update_product_by_id(id):
     data = request.get_json()
     get_product = Products.query.get(id)
@@ -93,7 +91,6 @@ def update_product_by_id(id):
     return jsonify({"product": get_product})
     
 @application.route('/products/<id>', methods = ['DELETE'])
-
 def delete_product_by_id(id):
     get_product = Products.query.get(id)
     db.session.delete(get_author)
@@ -146,3 +143,7 @@ def payment_info():
     db.session.commit()
      
     return jsonify({"product": result}), 201
+    
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
