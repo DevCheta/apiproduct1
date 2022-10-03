@@ -145,5 +145,5 @@ def payment_info():
     return jsonify({"product": result}), 201"""
     
 if __name__ == "__main__":
-    application = create_app()
+    #application = create_app()
     application.run(debug=True)
