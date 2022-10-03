@@ -104,7 +104,7 @@ def upsert_product_avatar(id):
         get_product = Products.query.get(id)
         if file and allowed_file(file.content_type):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
         get_product.avatar = url_for('uploaded_file', filename=filename, _external=True)
         db.session.add(get_product)
         db.session.commit()
