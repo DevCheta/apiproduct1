@@ -5,13 +5,12 @@ from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 
 application = Flask(__name__)
-app = application
 UPLOAD_FOLDER = '/path/to/the/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///productdb.db"
-app.config["SECRET_KEY"] = "my super secret key"
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///productdb.db"
+application.config["SECRET_KEY"] = "my super secret key"
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -46,13 +45,13 @@ class Products (db.Model):
 db.create_all()
 
 
-@app.route("/", methods = ['GET'])
+@application.route("/", methods = ['GET'])
 def index():
      get_products = Products.query.all()
      return jsonify({"products": get_products})
      
      
-@app.route('/products', methods = ['POST'])
+@application.route('/products', methods = ['POST'])
 def create_author():
     data = request.get_json()
     
@@ -68,7 +67,7 @@ def create_author():
      
     return jsonify({"product": result}), 201
     
-@app.route('/products/<id>', methods = ['GET'])
+@application.route('/products/<id>', methods = ['GET'])
 
 def get_product_by_id(id):
     get_product = Products.query.get(id)
@@ -78,7 +77,7 @@ def get_product_by_id(id):
         
     return jsonify({"product": get_product})
     
-@app.route('/products/<id>', methods = ['PUT'])
+@application.route('/products/<id>', methods = ['PUT'])
 
 def update_product_by_id(id):
     data = request.get_json()
@@ -95,7 +94,7 @@ def update_product_by_id(id):
     db.session.commit()
     return jsonify({"product": get_product})
     
-@app.route('/products/<id>', methods = ['DELETE'])
+@application.route('/products/<id>', methods = ['DELETE'])
 
 def delete_product_by_id(id):
     get_product = Products.query.get(id)
@@ -103,7 +102,7 @@ def delete_product_by_id(id):
     db.session.commit()
     return " ", 204
     
-@app.route('/avatar/<id>', methods=['POST'])
+@application.route('/avatar/<id>', methods=['POST'])
 def upsert_product_avatar(id):
     try:
         file = request.files['avatar']
@@ -119,7 +118,7 @@ def upsert_product_avatar(id):
         #print (e)
         return "INVALID INPUT 422"
          
-@app.route("/products/<name>", methods=["GET"])
+@application.route("/products/<name>", methods=["GET"])
 def search_products(name):
     get_product = Products.query.filter_by(name=name).first()
     if not get_product:
@@ -127,7 +126,7 @@ def search_products(name):
     
     return jsonify({"product" : get_product})
     
-@app.route("/products/<category>", methods=["GET"])
+@application.route("/products/<category>", methods=["GET"])
 def search_category(category):
     get_product = Products.query.filter_by(category=category).first()
     if not get_product:
@@ -135,7 +134,7 @@ def search_category(category):
     
     return jsonify({"product" : get_product})
     
-@app.route("/payments", methods=["POST"])
+@application.route("/payments", methods=["POST"])
 def payment_info():
     data = request.get_json()
     
@@ -152,4 +151,4 @@ def payment_info():
     
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
