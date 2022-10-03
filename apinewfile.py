@@ -148,7 +148,3 @@ def payment_info():
     db.session.commit()
      
     return jsonify({"product": result}), 201
-    
-    
-if __name__ == '__main__':
-    application.run(debug=True)
