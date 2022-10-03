@@ -42,6 +42,7 @@ class Products (db.Model):
     def __repr__(self):
         return '<Product %d>' % self.id
 
+db.create_all()
 
 @application.route("/", methods = ['GET'])
 def index():
@@ -142,8 +143,8 @@ def payment_info():
     db.session.add(result)
     db.session.commit()
      
-    return jsonify({"product": result}), 201"""
+    return jsonify({"product": result}), 201
     
 if __name__ == "__main__":
     #application = create_app()
-    application.run(debug=True)
+    application.run(debug=True)"""
