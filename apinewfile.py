@@ -49,7 +49,7 @@ def index():
      return jsonify({"products": get_products})
      
      
-@application.route('/products', methods = ['POST'])
+"""@application.route('/products', methods = ['POST'])
 def create_author():
     data = request.get_json()
     
@@ -97,7 +97,7 @@ def delete_product_by_id(id):
     db.session.commit()
     return " ", 204
     
-"""@application.route('/avatar/<id>', methods=['POST'])
+@application.route('/avatar/<id>', methods=['POST'])
 def upsert_product_avatar(id):
     try:
         file = request.files['avatar']
@@ -111,7 +111,7 @@ def upsert_product_avatar(id):
         return "SUCCESS_200", jsonify({"product": get_product})
     except Exception as e:
         #print (e)
-        return "INVALID INPUT 422"""
+        return "INVALID INPUT 422
          
 @application.route("/products/<name>", methods=["GET"])
 def search_products(name):
@@ -129,7 +129,7 @@ def search_category(category):
     
     return jsonify({"product" : get_product})
     
-"""@application.route("/payments", methods=["POST"])
+@application.route("/payments", methods=["POST"])
 def payment_info():
     data = request.get_json()
     
