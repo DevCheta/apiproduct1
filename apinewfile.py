@@ -1,43 +1,43 @@
-import os
+#import os
 import sqlite3
-from flask import Flask, flash, request, redirect, url_for, jsonify
-from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify
+#from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 
 application = Flask(__name__)
-UPLOAD_FOLDER = '/path/to/the/uploads'
-application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#UPLOAD_FOLDER = '/path/to/the/uploads'
+#application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///productdb.db"
 application.config["SECRET_KEY"] = "my super secret key"
 
 db = SQLAlchemy(application)
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-def allowed_file(filename):
-    return filetype in allowed_extensions
+"""def allowed_file(filename):
+    return filetype in allowed_extensions"""
 
 class Products (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    avatar = db.Column(db.String(20), nullable=True)
+    #avatar = db.Column(db.String(20), nullable=True)
     name = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Integer,  nullable=False)
     category = db.Column(db.String(200))
     description = db.Column(db.String(200))
-    accountName = db.Column(db.String(200))
-    accountNumber = db.Column(db.Integer)
-    bankName = db.Column(db.String(200))
+    #accountName = db.Column(db.String(200))
+    #accountNumber = db.Column(db.Integer)
+    #bankName = db.Column(db.String(200))
 
     
-    def __init__(self, avatar, name, price, category, description, accountName, accountNumber, bankName):
-        self.avatar = avatar
+    def __init__(self, name, price, category, description):
+        #self.avatar = avatar
         self.name = name
         self.price = price
         self.category = category
         self.description = description
-        self.accountName = accountName
+        """self.accountName = accountName
         self.accountNumber = accountNumber
-        self.bankName = bankName
+        self.bankName = bankName"""
         
     def __repr__(self):
         return '<Product %d>' % self.id
@@ -97,7 +97,7 @@ def delete_product_by_id(id):
     db.session.commit()
     return " ", 204
     
-@application.route('/avatar/<id>', methods=['POST'])
+"""@application.route('/avatar/<id>', methods=['POST'])
 def upsert_product_avatar(id):
     try:
         file = request.files['avatar']
@@ -111,7 +111,7 @@ def upsert_product_avatar(id):
         return "SUCCESS_200", jsonify({"product": get_product})
     except Exception as e:
         #print (e)
-        return "INVALID INPUT 422"
+        return "INVALID INPUT 422"""
          
 @application.route("/products/<name>", methods=["GET"])
 def search_products(name):
@@ -129,7 +129,7 @@ def search_category(category):
     
     return jsonify({"product" : get_product})
     
-@application.route("/payments", methods=["POST"])
+"""@application.route("/payments", methods=["POST"])
 def payment_info():
     data = request.get_json()
     
@@ -142,7 +142,7 @@ def payment_info():
     db.session.add(result)
     db.session.commit()
      
-    return jsonify({"product": result}), 201
+    return jsonify({"product": result}), 201"""
     
 if __name__ == "__main__":
     application = create_app()
